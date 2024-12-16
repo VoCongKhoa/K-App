@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package common;
+
+option java_multiple_files = true;
+option java_package = "di.fa.kaproto.common";
+option java_outer_classname = "CommonProto";
+
+message EmptyRequest {}
+
+message OnlyIdRequest {
+  string id = 1;
+}
+
+message CommonResponse {
+  string code = 1;
+  string message = 2;
+  map<string, string> errors = 3;
+}
