@@ -20,5 +20,6 @@
         <module>ka-auth</module>
         <module>ka-learning</module>
         <module>ka-blog</module>
+        <module>ka-proto</module>
     </modules>
 </project>

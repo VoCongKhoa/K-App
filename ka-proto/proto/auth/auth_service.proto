@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package auth;
+
+option java_multiple_files = true;
+option java_package = "di.fa.kaproto.auth";
+option java_outer_classname = "AuthProto";
+
+import "common/common.proto";
+
+service AuthService {
+
+  rpc Login(common.EmptyRequest) returns (LoginResponse) {};
+
+}
+
+message LoginResponse {
+}
