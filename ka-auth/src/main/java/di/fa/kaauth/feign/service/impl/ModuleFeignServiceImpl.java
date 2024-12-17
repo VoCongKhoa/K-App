@@ -5,9 +5,10 @@ import di.fa.kaauth.feign.dto.request.RegisterModuleFeignRequest;
 import di.fa.kaauth.feign.dto.response.GetModuleSettingsResponse;
 import di.fa.kaauth.feign.dto.response.RegisterModuleFeignResponse;
 import di.fa.kaauth.feign.service.ModuleFeignService;
-import di.fa.kaauth.entity.ModuleEntity;
-import di.fa.kaauth.entity.UserEntity;
-import di.fa.kaauth.repository.ModuleRepository;
+import di.fa.kaauth.core.entity.ModuleEntity;
+import di.fa.kaauth.core.entity.UserEntity;
+import di.fa.kaauth.core.repository.ModuleRepository;
+import di.fa.kaauth.notification.rabbitmq.RabbitMQService;
 import di.fa.kacommon.common.Status;
 import di.fa.kacommon.common.Type;
 import di.fa.kacommon.response.SystemResponse;
@@ -26,6 +27,8 @@ public class ModuleFeignServiceImpl implements ModuleFeignService {
     final ModuleRepository moduleRepository;
 
     final EmailService emailService;
+
+    final RabbitMQService mqService;
 
     @Override
     public SystemResponse<Object> registerModule(RegisterModuleFeignRequest request) {
@@ -67,7 +70,8 @@ public class ModuleFeignServiceImpl implements ModuleFeignService {
                 .build();
 
         // todo: send email
-        emailService.sendRegistrationEmail(rootUser, Type.Email.REGISTER_001.getType());
+        mqService.publishMailRegisterModule();
+//        emailService.sendRegistrationEmail(rootUser, Type.Email.REGISTER_001.getType());
 
         var response = SystemResponse.builder().build();
         response.asSuccess(SystemResponse.SUCCESS, RegisterModuleFeignResponse.builder().moduleId(moduleId.toString()).build());

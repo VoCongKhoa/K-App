@@ -1,7 +1,7 @@
 package di.fa.kaauth.core;
 
-import di.fa.kaauth.entity.UserEntity;
-import di.fa.kaauth.repository.TemplateRepository;
+import di.fa.kaauth.core.entity.UserEntity;
+import di.fa.kaauth.core.repository.TemplateRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;

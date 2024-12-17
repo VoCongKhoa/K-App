@@ -1,7 +1,7 @@
 package di.fa.kagateway.feign.client;
 
 import di.fa.kacommon.response.SystemResponse;
-import di.fa.kagateway.configs.feign.FeignConfiguration;
+import di.fa.kagateway.core.configs.feign.FeignConfiguration;
 import di.fa.kagateway.feign.dto.request.LoginRequest;
 import di.fa.kagateway.feign.dto.request.RegisterModuleRequest;
 import di.fa.kagateway.feign.dto.request.RegisterUserRequest;
@@ -9,7 +9,7 @@ import di.fa.kagateway.feign.dto.response.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "auth-service", url = "${auth.service.endpoint}", configuration = FeignConfiguration.class)
+@FeignClient(name = "auth-service", url = "${ka.auth.service.endpoint}", configuration = FeignConfiguration.class)
 public interface AuthFeignClient {
     String AUTHORIZATION = "Authorization";
 

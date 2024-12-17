@@ -1,8 +1,8 @@
 package di.fa.kagateway.feign.controller;
 
-import di.fa.kacommon.security.CredentialsHolder;
 import di.fa.kagateway.feign.client.AuthFeignClient;
 import di.fa.kagateway.feign.dto.request.RegisterUserRequest;
+import di.fa.kagateway.core.security.CredentialsHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
