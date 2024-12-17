@@ -1,5 +1,6 @@
 package di.fa.kaauth.grpc.server;
 
+import di.fa.kaauth.core.security.CredentialsHolder;
 import di.fa.kaauth.grpc.channel.AuthServerInterceptor;
 import di.fa.kaproto.auth.GetUserByUsernameRequest;
 import di.fa.kaproto.auth.GetUserByUsernameResponse;
@@ -8,7 +9,6 @@ import di.fa.kaproto.common.CommonResponse;
 import di.fa.kaproto.common.OnlyIdRequest;
 import io.grpc.stub.StreamObserver;
 import di.fa.kaauth.grpc.service.UserGrpcService;
-import di.fa.kaauth.core.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.lognet.springboot.grpc.GRpcService;
 
@@ -21,7 +21,7 @@ public class UserGrpcServer extends UserServiceGrpc.UserServiceImplBase {
     @Override
     public void getUserByUsername(GetUserByUsernameRequest request, StreamObserver<GetUserByUsernameResponse> responseObserver) {
         try {
-            var credentialsHolder = SecurityUtils.getPrincipal();
+            CredentialsHolder credentialsHolder = null;
             responseObserver.onNext(userGrpcService.getUserByUsername(request, credentialsHolder));
             responseObserver.onCompleted();
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class UserGrpcServer extends UserServiceGrpc.UserServiceImplBase {
 
     public void lockUserByUserId(OnlyIdRequest request, StreamObserver<CommonResponse> responseObserver) {
         try {
-            var credentialsHolder = SecurityUtils.getPrincipal();
+            CredentialsHolder credentialsHolder = null;
             responseObserver.onNext(userGrpcService.lockUserByUserId(request, credentialsHolder));
             responseObserver.onCompleted();
         } catch (Exception e) {

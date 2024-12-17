@@ -4,6 +4,7 @@ import di.fa.kaauth.core.entity.base.Auditable;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -46,4 +47,16 @@ public class ModuleEntity extends Auditable<UUID> {
 
     @Column(name = "email")
     private String email;
+
+    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
+    private Set<UserEntity> users;
+
+    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
+    private Set<RoleEntity> roles;
+
+    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
+    private Set<PermissionEntity> permissions;
+
+    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
+    private Set<LoginTrackingEntity> loginTrackings;
 }

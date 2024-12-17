@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface LoginTrackingRepository extends JpaRepository<LoginTrackingEntity, UUID> {
 
-    Optional<LoginTrackingEntity> findByUserIdAndModuleId(UUID userId, UUID moduleId);
+    Optional<LoginTrackingEntity> findByUser_UserIdAndModule_ModuleId(UUID userId, UUID moduleId);
 
 }

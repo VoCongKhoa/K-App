@@ -41,18 +41,18 @@ public class AuthFeignServiceImpl implements AuthFeignService {
                     .build());
 
             // todo: record loginTracking
-            var loginTracking = loginTrackingRepository.findByUserIdAndModuleId(userId, moduleId)
+            var loginTracking = loginTrackingRepository.findByUser_UserIdAndModule_ModuleId(userId, moduleId)
                     .orElseGet(() -> LoginTrackingEntity
                             .builder()
-                            .userId(userId)
-                            .moduleId(moduleId)
+//                            .userId(userId)
+//                            .moduleId(moduleId)
                             .build());
             loginTracking.setStatus(Status.Login.SUCCESS.getStatus());
             loginTracking.setLastLoginTime(new Timestamp(System.currentTimeMillis()));
             loginTracking.setFailedCount(0);
             loginTrackingRepository.save(loginTracking);
         } catch (Exception e) {
-            var loginTrackingOpt = loginTrackingRepository.findByUserIdAndModuleId(userId, moduleId);
+            var loginTrackingOpt = loginTrackingRepository.findByUser_UserIdAndModule_ModuleId(userId, moduleId);
             LoginTrackingEntity loginTracking;
             if (loginTrackingOpt.isPresent()) {
                 loginTracking = loginTrackingOpt.get();
@@ -66,8 +66,8 @@ public class AuthFeignServiceImpl implements AuthFeignService {
             } else {
                 loginTracking = LoginTrackingEntity
                         .builder()
-                        .userId(userId)
-                        .moduleId(moduleId)
+//                        .userId(userId)
+//                        .moduleId(moduleId)
                         .status(Status.Login.FAILED.getStatus())
                         .failedCount(1)
                         .lastLoginTime(new Timestamp(System.currentTimeMillis()))

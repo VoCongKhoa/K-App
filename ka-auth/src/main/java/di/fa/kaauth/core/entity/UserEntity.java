@@ -5,6 +5,7 @@ import di.fa.kaauth.core.entity.base.Auditable;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -53,6 +54,13 @@ public class UserEntity extends Auditable<UUID> {
     @Column(name = "active_date")
     private Timestamp activeDate;
 
-    @Column(name = "module_id")
-    private UUID moduleId;
+    @ManyToOne
+    @JoinColumn(name = "module_id", referencedColumnName = "module_id")
+    private ModuleEntity module;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<UserScopeEntity> userScopes;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<LoginTrackingEntity> loginTrackings;
 }

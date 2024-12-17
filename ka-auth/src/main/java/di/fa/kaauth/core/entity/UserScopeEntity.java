@@ -9,12 +9,12 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_relations_entity")
-public class UserRelationsEntity {
+@Table(name = "user_scope_entity")
+public class UserScopeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_relations_id")
-    private UUID userRelationsId;
+    @Column(name = "user_scope_id")
+    private UUID userScopeId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")

@@ -20,18 +20,20 @@ public class LoginTrackingEntity extends Auditable<UUID> {
     @Column(name = "login_tracking_id")
     private UUID loginTrackingId;
 
-    @Column(name = "user_id")
-    private UUID userId;
-
     @Column(name = "status")
     private String status;
 
-    @Column(name = "failed_count", columnDefinition = "int4 0")
+    @Column(name = "failed_count", columnDefinition = "int4 default 0")
     private Integer failedCount;
 
     @Column(name = "last_login_time")
     private Timestamp lastLoginTime;
 
-    @Column(name = "module_id")
-    private UUID moduleId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "module_id", referencedColumnName = "module_id")
+    private ModuleEntity module;
 }

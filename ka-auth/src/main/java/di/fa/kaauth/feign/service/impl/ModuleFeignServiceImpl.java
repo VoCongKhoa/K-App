@@ -1,6 +1,5 @@
 package di.fa.kaauth.feign.service.impl;
 
-import di.fa.kaauth.core.EmailService;
 import di.fa.kaauth.feign.dto.request.RegisterModuleFeignRequest;
 import di.fa.kaauth.feign.dto.response.GetModuleSettingsResponse;
 import di.fa.kaauth.feign.dto.response.RegisterModuleFeignResponse;
@@ -10,7 +9,6 @@ import di.fa.kaauth.core.entity.UserEntity;
 import di.fa.kaauth.core.repository.ModuleRepository;
 import di.fa.kaauth.notification.rabbitmq.RabbitMQService;
 import di.fa.kacommon.common.Status;
-import di.fa.kacommon.common.Type;
 import di.fa.kacommon.response.SystemResponse;
 import di.fa.kacommon.security.PassPhase;
 import di.fa.kacommon.security.PwdUtil;
@@ -25,8 +23,6 @@ import java.util.UUID;
 public class ModuleFeignServiceImpl implements ModuleFeignService {
 
     final ModuleRepository moduleRepository;
-
-    final EmailService emailService;
 
     final RabbitMQService mqService;
 
@@ -66,7 +62,7 @@ public class ModuleFeignServiceImpl implements ModuleFeignService {
                 .phoneCode(request.getPhoneCode())
                 .phoneNumber(request.getPhoneNumber())
                 .status(Status.User.ACTIVE.getStatus())
-                .moduleId(moduleId)
+//                .moduleId(moduleId)
                 .build();
 
         // todo: send email

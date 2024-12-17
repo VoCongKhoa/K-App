@@ -4,6 +4,7 @@ import di.fa.kaauth.core.entity.base.Auditable;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -35,6 +36,10 @@ public class RoleEntity extends Auditable<UUID> {
     @Column(name = "is_default")
     private Boolean isDefault;
 
-    @Column(name = "module_id")
-    private UUID moduleId;
+    @ManyToOne
+    @JoinColumn(name = "module_id", referencedColumnName = "module_id")
+    private ModuleEntity module;
+
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private Set<UserScopeEntity> userScopes;
 }
