@@ -9,6 +9,7 @@
         <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <groupId>di.fa</groupId>
     <artifactId>ka-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ka-common</name>
