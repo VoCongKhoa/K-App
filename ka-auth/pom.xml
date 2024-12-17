@@ -2,11 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <parent>
-        <groupId>di.fa</groupId>
-        <artifactId>K-App</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <artifactId>ka-auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -104,6 +105,13 @@
             <artifactId>grpc-stub</artifactId>
             <version>${grpc-protobuf.version}</version>
         </dependency>
+
+        <!--        For GRpc server-->
+        <dependency>
+            <groupId>io.github.lognet</groupId>
+            <artifactId>grpc-spring-boot-starter</artifactId>
+            <version>${grpc-server-starter.version}</version>
+        </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
@@ -168,12 +176,6 @@
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-core</artifactId>
             <version>26.0.5</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/net.devh/grpc-server-spring-boot-starter -->
-        <dependency>
-            <groupId>net.devh</groupId>
-            <artifactId>grpc-server-spring-boot-starter</artifactId>
-            <version>3.1.0.RELEASE</version>
         </dependency>
 
         <!--        COMMON-->

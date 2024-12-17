@@ -1,6 +1,6 @@
 package di.fa.kaauth.feign.dto.response;
 
-import di.fa.kaauth.entity.ModuleEntity;
+import di.fa.kaauth.core.entity.ModuleEntity;
 import lombok.*;
 
 @Builder

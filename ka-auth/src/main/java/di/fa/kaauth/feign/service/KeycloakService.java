@@ -1,6 +1,6 @@
 package di.fa.kaauth.feign.service;
 
-import di.fa.kaauth.feign.client.KeycloakServiceClient;
+import di.fa.kaauth.feign.client.KeycloakFeignClient;
 import di.fa.kaauth.feign.dto.response.KeycloakLoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class KeycloakService {
 
-    final KeycloakServiceClient keycloakServiceClient;
+    final KeycloakFeignClient keycloakFeignClient;
 
     @Value("${keycloak.endpoint}")
     String keycloakUrl;
@@ -135,7 +135,7 @@ public class KeycloakService {
         keyCloakRequest.put(GRANT_TYPE, OAuth2Constants.PASSWORD);
         keyCloakRequest.put(CLIENT_SECRET, keycloakClientSecret);
 
-        var response = keycloakServiceClient.login(keycloakRealm, keyCloakRequest);
+        var response = keycloakFeignClient.login(keycloakRealm, keyCloakRequest);
         return response.getBody();
     }
 
@@ -146,7 +146,7 @@ public class KeycloakService {
         keyCloakRequest.put(GRANT_TYPE, OAuth2Constants.TOKEN_EXCHANGE_GRANT_TYPE);
         keyCloakRequest.put(CLIENT_SECRET, keycloakClientSecret);
 
-        var response = keycloakServiceClient.login(keycloakRealm, keyCloakRequest);
+        var response = keycloakFeignClient.login(keycloakRealm, keyCloakRequest);
         return response.getBody();
     }
 
@@ -157,7 +157,7 @@ public class KeycloakService {
         keyCloakRequest.put(GRANT_TYPE, OAuth2Constants.REFRESH_TOKEN);
         keyCloakRequest.put(CLIENT_SECRET, keycloakClientSecret);
 
-        var response = keycloakServiceClient.login(keycloakRealm, keyCloakRequest);
+        var response = keycloakFeignClient.login(keycloakRealm, keyCloakRequest);
         return response.getBody();
     }
 
