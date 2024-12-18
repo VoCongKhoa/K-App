@@ -1,14 +1,14 @@
-package di.fa.kagateway.core.aspect;
+package di.fa.kaauth.core.aspect;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import di.fa.kaauth.core.annotates.UnAuthController;
+import di.fa.kaauth.core.annotates.UnAuthMethod;
+import di.fa.kaauth.core.exception.KAAuthException;
+import di.fa.kaauth.core.security.CredentialsHolder;
+import di.fa.kaauth.feign.client.KeycloakFeignClient;
 import di.fa.kacommon.response.ResponseStatus;
-import di.fa.kagateway.core.annotates.UnAuthController;
-import di.fa.kagateway.core.annotates.UnAuthMethod;
-import di.fa.kagateway.core.exception.KAGatewayException;
-import di.fa.kagateway.core.security.CredentialsHolder;
-import di.fa.kagateway.feign.client.KeycloakFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -61,8 +61,10 @@ public class AspectValidate {
         credentialsHolder.setRefreshToken(request.getHeader("ka-refresh-token"));
 
         if (!(ignoreController != null || ignoreMethod != null) && StringUtils.isBlank(request.getHeader("Authorization"))) {
-            throw new KAGatewayException(HttpStatus.UNAUTHORIZED, ResponseStatus.UNAUTHORIZED);
+            throw new KAAuthException(HttpStatus.UNAUTHORIZED, ResponseStatus.UNAUTHORIZED);
         }
+
+        credentialsHolder.setModuleId(request.getHeader("ka-module-id"));
 
         if (!(ignoreController != null || ignoreMethod != null)) {
             var token = request.getHeader("Authorization");
@@ -81,7 +83,7 @@ public class AspectValidate {
             keycloakFeignClient.getKeycloakUserInfo(keycloakRealm, token);
         } catch (Exception ex) {
             log.error(String.format("Get keycloak user info fail: %s", ex));
-            throw new KAGatewayException(HttpStatus.UNAUTHORIZED, ResponseStatus.UNAUTHORIZED);
+            throw new KAAuthException(HttpStatus.UNAUTHORIZED, ResponseStatus.UNAUTHORIZED);
         }
     }
 

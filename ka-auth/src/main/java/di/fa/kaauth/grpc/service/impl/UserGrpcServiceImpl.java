@@ -1,6 +1,6 @@
 package di.fa.kaauth.grpc.service.impl;
 
-import di.fa.kaauth.core.exception.AccountException;
+import di.fa.kaauth.core.exception.KAAuthException;
 import di.fa.kaauth.core.security.CredentialsHolder;
 import di.fa.kaauth.grpc.service.UserGrpcService;
 import di.fa.kaauth.core.repository.UserRepository;
@@ -22,7 +22,7 @@ public class UserGrpcServiceImpl implements UserGrpcService {
 
     @Override
     public GetUserByUsernameResponse getUserByUsername(GetUserByUsernameRequest request, CredentialsHolder credentialsHolder) {
-        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AccountException(null));
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new KAAuthException(null));
         return GetUserByUsernameResponse.newBuilder()
                 .setId(user.getUserId().toString())
                 .setUsername(user.getUsername())
@@ -32,7 +32,7 @@ public class UserGrpcServiceImpl implements UserGrpcService {
 
     @Override
     public CommonResponse lockUserByUserId(OnlyIdRequest request, CredentialsHolder credentialsHolder) {
-        var user = userRepository.findById(UUID.fromString(request.getId())).orElseThrow(() -> new AccountException(null));
+        var user = userRepository.findById(UUID.fromString(request.getId())).orElseThrow(() -> new KAAuthException(null));
         user.setStatus(Status.User.BLOCK.getStatus());
         return CommonResponse.newBuilder()
                 .setCode("")

@@ -16,6 +16,7 @@ import org.springframework.web.context.annotation.RequestScope;
 @Setter
 public class CredentialsHolder {
     private JsonNode userInfo;
+    private String moduleId;
     private String refreshToken;
     private String accessToken;
     private String secretKey;

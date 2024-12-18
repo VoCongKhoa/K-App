@@ -9,41 +9,41 @@ import org.springframework.http.HttpStatus;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class AccountException extends ServiceException {
+public class KAAuthException extends ServiceException {
 
-    public AccountException(HttpStatus statusCode, String errCode, String errMessage, SystemError systemError, Object... args){
+    public KAAuthException(HttpStatus statusCode, String errCode, String errMessage, SystemError systemError, Object... args){
         super(statusCode, null, null, errCode, errMessage, systemError, args);
     }
 
-    public AccountException(HttpStatus statusCode, String errCode, String errMessage, Object... args){
+    public KAAuthException(HttpStatus statusCode, String errCode, String errMessage, Object... args){
         super(statusCode, null, null, errCode, errMessage, args);
     }
 
-    public AccountException(HttpStatus statusCode, ResponseStatus status, SystemError systemError, Object... args){
+    public KAAuthException(HttpStatus statusCode, ResponseStatus status, SystemError systemError, Object... args){
         super(statusCode, null, null, status.getCode(), status.getMessage(), systemError, args);
     }
 
-    public AccountException(HttpStatus statusCode, ResponseStatus status, Object... args){
+    public KAAuthException(HttpStatus statusCode, ResponseStatus status, Object... args){
         super(statusCode, null, null, status.getCode(), status.getMessage(), args);
     }
 
-    public AccountException(HttpStatus statusCode, Throwable cause, ResponseStatus status, Object... args){
+    public KAAuthException(HttpStatus statusCode, Throwable cause, ResponseStatus status, Object... args){
         super(statusCode, cause, null, status.getCode(), status.getMessage(), args);
     }
 
-    public AccountException(HttpStatus statusCode, Object error, ResponseStatus status, Object... args){
+    public KAAuthException(HttpStatus statusCode, Object error, ResponseStatus status, Object... args){
         super(statusCode, null, error, status.getCode(), status.getMessage(), args);
     }
 
-    public AccountException(HttpStatus statusCode, Object error, String errCode, String errMessage, Object... args){
+    public KAAuthException(HttpStatus statusCode, Object error, String errCode, String errMessage, Object... args){
         super(statusCode, null, error, errCode, errMessage, args);
     }
 
-    public AccountException(HttpStatus statusCode, SystemError systemError){
+    public KAAuthException(HttpStatus statusCode, SystemError systemError){
         super(statusCode, systemError);
     }
 
-    public AccountException(Set<? extends ConstraintViolation<?>> violations) {
+    public KAAuthException(Set<? extends ConstraintViolation<?>> violations) {
         super(HttpStatus.BAD_REQUEST,
                 null,
                 null,

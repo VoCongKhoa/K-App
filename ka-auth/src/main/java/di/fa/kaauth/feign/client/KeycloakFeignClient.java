@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@FeignClient(name = "keycloak-service", url = "http://localhost:57654/auth", configuration = FeignConfiguration.class)
+@FeignClient(name = "keycloak-service", url = "${keycloak.endpoint}", configuration = FeignConfiguration.class)
 @Configuration
 public interface KeycloakFeignClient {
 

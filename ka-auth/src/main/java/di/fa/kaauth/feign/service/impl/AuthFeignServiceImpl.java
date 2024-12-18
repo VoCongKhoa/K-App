@@ -13,6 +13,7 @@ import di.fa.kaproto.auth.GetUserByUsernameRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -28,52 +29,53 @@ public class AuthFeignServiceImpl implements AuthFeignService {
     final CredentialsHolder credentialsHolder;
 
     @Override
+    @Transactional
     public SystemResponse<Object> login(LoginRequest request) {
-        var userId = UUID.fromString(credentialsHolder.getUserInfo().get("user_id").asText());
-        var moduleId = UUID.fromString(credentialsHolder.getUserInfo().get("module_id").asText());
+        var moduleId = UUID.fromString("1467eba1-c4d0-4157-b37a-6ea061689f27");
 
         try {
             var keycloakResponse = keycloakService.loginUsername(request.getUsername(), request.getPassword());
+            System.out.println(keycloakResponse);
 
-            // Call internal to account-service to get user entity
-            var user = accountGrpcClient.getUserByUsername(GetUserByUsernameRequest.newBuilder()
-                    .setUsername(request.getUsername())
-                    .build());
-
-            // todo: record loginTracking
-            var loginTracking = loginTrackingRepository.findByUser_UserIdAndModule_ModuleId(userId, moduleId)
-                    .orElseGet(() -> LoginTrackingEntity
-                            .builder()
-//                            .userId(userId)
-//                            .moduleId(moduleId)
-                            .build());
-            loginTracking.setStatus(Status.Login.SUCCESS.getStatus());
-            loginTracking.setLastLoginTime(new Timestamp(System.currentTimeMillis()));
-            loginTracking.setFailedCount(0);
-            loginTrackingRepository.save(loginTracking);
+//            // Call internal to account-service to get user entity
+//            var user = accountGrpcClient.getUserByUsername(GetUserByUsernameRequest.newBuilder()
+//                    .setUsername(request.getUsername())
+//                    .build());
+//
+//            // todo: record loginTracking
+//            var loginTracking = loginTrackingRepository.findByUser_UsernameAndModule_ModuleId(request.getUsername(), moduleId)
+//                    .orElseGet(() -> LoginTrackingEntity
+//                            .builder()
+////                            .userId(userId)
+////                            .moduleId(moduleId)
+//                            .build());
+//            loginTracking.setStatus(Status.Login.SUCCESS.getStatus());
+//            loginTracking.setLastLoginTime(new Timestamp(System.currentTimeMillis()));
+//            loginTracking.setFailedCount(0);
+//            loginTrackingRepository.save(loginTracking);
         } catch (Exception e) {
-            var loginTrackingOpt = loginTrackingRepository.findByUser_UserIdAndModule_ModuleId(userId, moduleId);
-            LoginTrackingEntity loginTracking;
-            if (loginTrackingOpt.isPresent()) {
-                loginTracking = loginTrackingOpt.get();
-                var failedCount = loginTracking.getFailedCount();
-                if (failedCount == 3) {
-                    loginTracking.setStatus(Status.Login.FAILED.getStatus());
-                    // todo: lock user here!
-                } else {
-                    loginTracking.setFailedCount(++failedCount);
-                }
-            } else {
-                loginTracking = LoginTrackingEntity
-                        .builder()
-//                        .userId(userId)
-//                        .moduleId(moduleId)
-                        .status(Status.Login.FAILED.getStatus())
-                        .failedCount(1)
-                        .lastLoginTime(new Timestamp(System.currentTimeMillis()))
-                        .build();
-            }
-            loginTrackingRepository.save(loginTracking);
+//            var loginTrackingOpt = loginTrackingRepository.findByUser_UsernameAndModule_ModuleId(request.getUsername(), moduleId);
+//            LoginTrackingEntity loginTracking;
+//            if (loginTrackingOpt.isPresent()) {
+//                loginTracking = loginTrackingOpt.get();
+//                var failedCount = loginTracking.getFailedCount();
+//                if (failedCount == 3) {
+//                    loginTracking.setStatus(Status.Login.FAILED.getStatus());
+//                    // todo: lock user here!
+//                } else {
+//                    loginTracking.setFailedCount(++failedCount);
+//                }
+//            } else {
+//                loginTracking = LoginTrackingEntity
+//                        .builder()
+////                        .userId(userId)
+////                        .moduleId(moduleId)
+//                        .status(Status.Login.FAILED.getStatus())
+//                        .failedCount(1)
+//                        .lastLoginTime(new Timestamp(System.currentTimeMillis()))
+//                        .build();
+//            }
+//            loginTrackingRepository.save(loginTracking);
         }
 
         var response = SystemResponse.builder().build();
