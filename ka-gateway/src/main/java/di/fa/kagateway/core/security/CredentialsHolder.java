@@ -18,5 +18,4 @@ public class CredentialsHolder {
     private JsonNode userInfo;
     private String refreshToken;
     private String accessToken;
-    private String secretKey;
 }

@@ -1,5 +1,6 @@
 package di.fa.kagateway.feign.controller;
 
+import di.fa.kagateway.core.annotates.UnAuthMethod;
 import di.fa.kagateway.feign.client.AuthFeignClient;
 import di.fa.kagateway.feign.dto.request.RegisterModuleRequest;
 import di.fa.kagateway.core.security.CredentialsHolder;
@@ -16,6 +17,7 @@ public class ModuleFeignController {
     final CredentialsHolder credentialsHolder;
 
     @PostMapping("/register")
+    @UnAuthMethod
     public ResponseEntity<Object> registerModule(@RequestBody RegisterModuleRequest request) {
         return ResponseEntity.ok(authFeignClient.registerModule(request));
     }

@@ -1,5 +1,6 @@
 package di.fa.kaauth.feign.controller;
 
+import di.fa.kaauth.core.annotates.UnAuthMethod;
 import di.fa.kaauth.feign.dto.request.RegisterModuleFeignRequest;
 import di.fa.kaauth.feign.service.ModuleFeignService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class ModuleFeignController {
     final ModuleFeignService moduleFeignService;
 
     @PostMapping("/register")
+    @UnAuthMethod
     public ResponseEntity<Object> registerModule(@RequestBody RegisterModuleFeignRequest request) {
         return ResponseEntity.ok(moduleFeignService.registerModule(request));
     }

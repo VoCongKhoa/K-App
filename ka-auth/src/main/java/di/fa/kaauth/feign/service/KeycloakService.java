@@ -1,6 +1,7 @@
 package di.fa.kaauth.feign.service;
 
 import di.fa.kaauth.feign.client.KeycloakFeignClient;
+import di.fa.kaauth.feign.dto.request.KeycloakCreateRootUserRequest;
 import di.fa.kaauth.feign.dto.response.KeycloakLoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +10,7 @@ import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.UserResource;
-import org.keycloak.representations.idm.CredentialRepresentation;
-import org.keycloak.representations.idm.UserRepresentation;
+import org.keycloak.representations.idm.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -70,15 +70,31 @@ public class KeycloakService {
         }
     }
 
-    public String createUser(String username, String password, Map<String, List<String>> attribute) {
+    public String createUser(KeycloakCreateRootUserRequest request, String username, String password, Map<String, List<String>> attribute) {
         this.getInstance();
 
         var user = new UserRepresentation();
         user.setEnabled(true);
-        user.setUsername(username.toLowerCase());
+        user.setUsername(request.getUsername().toLowerCase());
+        user.setFirstName(request.getFirstName().toLowerCase());
+        user.setLastName(request.getLastName().toLowerCase());
+        user.setEmail(request.getEmail().toLowerCase());
+        user.setEmailVerified(true);
         user.setAttributes(attribute);
 
+        var client = new ClientRepresentation();
+
+        var r = new RoleRepresentation();
+        var c = new ClientRepresentation();
+        var g = new GroupRepresentation();
+        var cs = new ClientScopeRepresentation();
         var realmResource = keycloak.realm(keycloakRealm);
+        var role = realmResource.roles();
+        var group = realmResource.groups();
+        var clients = realmResource.clients();
+        var clientScopes = realmResource.clientScopes();
+
+
         var usersResource = realmResource.users();
         var response = usersResource.create(user);
         var userId = CreatedResponseUtil.getCreatedId(response);

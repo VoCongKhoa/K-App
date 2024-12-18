@@ -1,16 +1,19 @@
 package di.fa.kaauth.core.entity;
 
+import di.fa.kaauth.core.entity.base.Auditable;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user_scope_entity")
-public class UserScopeEntity {
+public class UserScopeEntity extends Auditable<UUID> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_scope_id")

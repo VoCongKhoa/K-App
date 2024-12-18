@@ -1,5 +1,6 @@
 package di.fa.kagateway.feign.controller;
 
+import di.fa.kagateway.core.annotates.UnAuthMethod;
 import di.fa.kagateway.feign.client.AuthFeignClient;
 import di.fa.kagateway.feign.dto.request.LoginRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class AuthFeignController {
     final AuthFeignClient authFeignClient;
 
     @PostMapping("/login")
+    @UnAuthMethod
     public ResponseEntity<Object> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authFeignClient.login(request));
     }

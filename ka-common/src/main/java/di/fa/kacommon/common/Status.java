@@ -5,6 +5,20 @@ import lombok.Getter;
 public interface Status {
 
     @Getter
+    enum Module implements Status {
+        ACTIVE("active"),
+        DE_ACTIVE("de-active"),
+        BLOCK("block"),
+        NEWBIE("newbie"),
+        ;
+        private final String status;
+
+        Module(final String status) {
+            this.status = status;
+        }
+    }
+
+    @Getter
     enum User implements Status {
         ACTIVE("active"),
         DE_ACTIVE("de-active"),
@@ -20,17 +34,31 @@ public interface Status {
     }
 
     @Getter
-    enum Module implements Status {
+    enum Role implements Status {
         ACTIVE("active"),
         DE_ACTIVE("de-active"),
-        BLOCK("block"),
-        NEWBIE("newbie"),
+        DELETED("deleted"),
         ;
         private final String status;
 
-        Module(final String status) {
+        Role(final String status) {
             this.status = status;
         }
+
+    }
+
+    @Getter
+    enum Permission implements Status {
+        ACTIVE("active"),
+        DE_ACTIVE("de-active"),
+        DELETED("deleted"),
+        ;
+        private final String status;
+
+        Permission(final String status) {
+            this.status = status;
+        }
+
     }
 
     @Getter
