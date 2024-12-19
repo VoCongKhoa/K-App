@@ -56,7 +56,6 @@ public class AspectValidate {
         var ignoreController = classType.getAnnotation(UnAuthController.class);
         var ignoreMethod = method.getAnnotation(UnAuthMethod.class);
         var request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-//        var wrappedRequest = (ContentCachingRequestWrapper) request;
 
         credentialsHolder.setRefreshToken(request.getHeader("ka-refresh-token"));
 

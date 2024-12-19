@@ -19,14 +19,17 @@ public class RabbitMQService {
         try {
             var message = SendMailRegisterModuleMessage
                     .builder()
-                    .email("principalService.getEmail()")
+                    .firstName("test")
+                    .lastName("test")
+                    .password("test")
+                    .email("voboiboi.0403@gmail.com")
                     .build();
 
             rabbitTemplate.convertAndSend(mqConfiguration.mailRegisterModuleQueue, "", message);
 
-            log.info(String.format("Publish email register module: %s successful."));
+            log.info("Publish email register module successful.");
         } catch (Exception ex) {
-            log.error(String.format("Publish email register module: %s fail with cause: %s message: %s"));
+            log.error(String.format("Publish email register module fail with cause: %s message: %s", ex.getCause().toString(), ex.getMessage()));
         }
     }
 }

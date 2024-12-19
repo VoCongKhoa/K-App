@@ -7,6 +7,7 @@ import di.fa.kaauth.feign.service.AuthFeignService;
 import di.fa.kaauth.feign.service.KeycloakService;
 import di.fa.kaauth.grpc.client.AccountGrpcClient;
 import di.fa.kaauth.core.repository.LoginTrackingRepository;
+import di.fa.kaauth.notification.rabbitmq.RabbitMQService;
 import di.fa.kacommon.common.Status;
 import di.fa.kacommon.response.SystemResponse;
 import di.fa.kaproto.auth.GetUserByUsernameRequest;
@@ -27,6 +28,7 @@ public class AuthFeignServiceImpl implements AuthFeignService {
     final LoginTrackingRepository loginTrackingRepository;
 
     final CredentialsHolder credentialsHolder;
+    final RabbitMQService mqService;
 
     @Override
     @Transactional
@@ -34,8 +36,8 @@ public class AuthFeignServiceImpl implements AuthFeignService {
         var moduleId = UUID.fromString("1467eba1-c4d0-4157-b37a-6ea061689f27");
 
         try {
-            var keycloakResponse = keycloakService.loginUsername(request.getUsername(), request.getPassword());
-            System.out.println(keycloakResponse);
+//            var keycloakResponse = keycloakService.loginUsername(request.getUsername(), request.getPassword());
+//            System.out.println(keycloakResponse);
 
 //            // Call internal to account-service to get user entity
 //            var user = accountGrpcClient.getUserByUsername(GetUserByUsernameRequest.newBuilder()
@@ -77,6 +79,8 @@ public class AuthFeignServiceImpl implements AuthFeignService {
 //            }
 //            loginTrackingRepository.save(loginTracking);
         }
+        // todo: send username, pwd to email
+        mqService.publishMailRegisterModule();
 
         var response = SystemResponse.builder().build();
         response.asSuccess(SystemResponse.SUCCESS, null);

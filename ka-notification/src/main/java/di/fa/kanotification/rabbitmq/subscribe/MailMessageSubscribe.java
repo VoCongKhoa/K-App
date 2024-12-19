@@ -18,7 +18,7 @@ public class MailMessageSubscribe {
     private static final String E_L101 = "E-L101";
 
 
-    @RabbitListener(queues = "${mq.email.otp-locked.queue}")
+    @RabbitListener(queues = "${mq.register.module.queue}")
     public void subscribeEmailOTPLockedMessage(SendMailRegisterModuleMessage message) {
         try {
             mailService.sendMailRegisterModule(message, E_L101);
