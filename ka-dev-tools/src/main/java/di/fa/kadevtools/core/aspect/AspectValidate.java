@@ -1,17 +1,17 @@
-package di.fa.kagateway.core.aspect;
+package di.fa.kadevtools.core.aspect;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import di.fa.kacommon.response.ResponseStatus;
-import di.fa.kagateway.core.annotates.Information;
-import di.fa.kagateway.core.annotates.UnAuthController;
-import di.fa.kagateway.core.annotates.UnAuthMethod;
-import di.fa.kagateway.core.exception.KAGatewayException;
-import di.fa.kagateway.core.security.CredentialsHolder;
-import di.fa.kagateway.feign.client.KeycloakFeignClient;
+import di.fa.kadevtools.core.annotates.UnAuthController;
+import di.fa.kadevtools.core.annotates.UnAuthMethod;
+import di.fa.kadevtools.core.exception.KADevToolsException;
+import di.fa.kadevtools.core.security.CredentialsHolder;
+import di.fa.kadevtools.feign.client.KeycloakFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -23,10 +23,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 
 @Slf4j
 @Aspect
@@ -57,29 +55,15 @@ public class AspectValidate {
         var method = classType.getMethod(signature.getMethod().getName(), signature.getMethod().getParameterTypes());
         var ignoreController = classType.getAnnotation(UnAuthController.class);
         var ignoreMethod = method.getAnnotation(UnAuthMethod.class);
-        var informationMethod = method.getAnnotation(Information.class);
         var request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
         credentialsHolder.setRefreshToken(request.getHeader("ka-refresh-token"));
 
-        if (informationMethod != null) {
-            GetMapping getMapping = signature.getMethod().getAnnotation(GetMapping.class);
-            if (getMapping != null) {
-                // Retrieve the endpoint mapping value
-                String[] paths = getMapping.value();
-                if (paths.length > 0) {
-                    if (paths[0].endsWith("/?")) {
-                        //Return Information here
-                        return null;
-                    }
-                    System.out.println("Endpoint Path: " + paths[0]);
-                }
-            }
+        if (!(ignoreController != null || ignoreMethod != null) && StringUtils.isBlank(request.getHeader("Authorization"))) {
+            throw new KADevToolsException(HttpStatus.UNAUTHORIZED, ResponseStatus.UNAUTHORIZED);
         }
 
-        if (!(ignoreController != null || ignoreMethod != null) && StringUtils.isBlank(request.getHeader("Authorization"))) {
-            throw new KAGatewayException(HttpStatus.UNAUTHORIZED, ResponseStatus.UNAUTHORIZED);
-        }
+        credentialsHolder.setModuleId(request.getHeader("ka-module-id"));
 
         if (!(ignoreController != null || ignoreMethod != null)) {
             var token = request.getHeader("Authorization");
@@ -98,7 +82,7 @@ public class AspectValidate {
             keycloakFeignClient.getKeycloakUserInfo(keycloakRealm, token);
         } catch (Exception ex) {
             log.error(String.format("Get keycloak user info fail: %s", ex));
-            throw new KAGatewayException(HttpStatus.UNAUTHORIZED, ResponseStatus.UNAUTHORIZED);
+            throw new KADevToolsException(HttpStatus.UNAUTHORIZED, ResponseStatus.UNAUTHORIZED);
         }
     }
 
@@ -115,7 +99,7 @@ public class AspectValidate {
 
         var splitString = token.split("\\.");
         var encodeBody = splitString[1];
-        var base64 = new org.apache.commons.codec.binary.Base64(true);
+        var base64 = new Base64(true);
         var body = new String(base64.decode(encodeBody));
 
         return new ObjectMapper().readValue(body, JsonNode.class);

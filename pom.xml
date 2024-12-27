@@ -17,5 +17,6 @@
         <module>ka-proto</module>
         <module>ka-notification</module>
         <module>ka-file</module>
+        <module>ka-dev-tools</module>
     </modules>
 </project>

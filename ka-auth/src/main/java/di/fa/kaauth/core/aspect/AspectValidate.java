@@ -11,6 +11,7 @@ import di.fa.kaauth.feign.client.KeycloakFeignClient;
 import di.fa.kacommon.response.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -24,7 +25,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 
 @Slf4j
 @Aspect
@@ -99,7 +99,7 @@ public class AspectValidate {
 
         var splitString = token.split("\\.");
         var encodeBody = splitString[1];
-        var base64 = new org.apache.commons.codec.binary.Base64(true);
+        var base64 = new Base64(true);
         var body = new String(base64.decode(encodeBody));
 
         return new ObjectMapper().readValue(body, JsonNode.class);

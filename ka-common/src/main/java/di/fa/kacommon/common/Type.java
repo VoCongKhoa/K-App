@@ -16,4 +16,31 @@ public interface Type {
         }
 
     }
+
+    @Getter
+    enum DevTools implements Type {
+        CONFIG("config"),
+        TOOL("tool"),
+        ;
+        private final String type;
+
+        DevTools(final String type) {
+            this.type = type;
+        }
+
+    }
+
+    @Getter
+    enum Action implements Type {
+        INSERT("insert"),
+        UPDATE("update"),
+        DELETE("delete"),
+        ;
+        private final String type;
+
+        Action(final String type) {
+            this.type = type;
+        }
+
+    }
 }
