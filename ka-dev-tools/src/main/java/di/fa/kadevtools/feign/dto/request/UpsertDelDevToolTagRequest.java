@@ -8,6 +8,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpsertDelDevToolRequest extends UpsertDelBaseRequest {
-    UpsertDelDevToolItem item;
+public class UpsertDelDevToolTagRequest extends UpsertDelBaseRequest {
+    private UpsertDelDevToolTagItem item;
 }

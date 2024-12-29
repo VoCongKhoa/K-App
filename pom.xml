@@ -18,5 +18,6 @@
         <module>ka-notification</module>
         <module>ka-file</module>
         <module>ka-dev-tools</module>
+        <module>ka-keep</module>
     </modules>
 </project>

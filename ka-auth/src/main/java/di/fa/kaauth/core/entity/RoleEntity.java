@@ -36,10 +36,6 @@ public class RoleEntity extends Auditable<UUID> {
     @Column(name = "is_default")
     private Boolean isDefault;
 
-    @ManyToOne
-    @JoinColumn(name = "module_id", referencedColumnName = "module_id")
-    private ModuleEntity module;
-
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Set<UserScopeEntity> userScopes;
 }

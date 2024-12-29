@@ -32,8 +32,4 @@ public class LoginTrackingEntity extends Auditable<UUID> {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
-
-    @ManyToOne
-    @JoinColumn(name = "module_id", referencedColumnName = "module_id")
-    private ModuleEntity module;
 }

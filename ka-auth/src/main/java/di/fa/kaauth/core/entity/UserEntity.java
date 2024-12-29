@@ -54,6 +54,9 @@ public class UserEntity extends Auditable<UUID> {
     @Column(name = "active_date")
     private Timestamp activeDate;
 
+    @Column(name = "key_cloak_user_id")
+    private String keycloakUserId;
+
     @ManyToOne
     @JoinColumn(name = "module_id", referencedColumnName = "module_id")
     private ModuleEntity module;

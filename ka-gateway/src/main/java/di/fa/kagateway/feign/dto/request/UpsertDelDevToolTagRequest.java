@@ -7,5 +7,5 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpsertDelDevToolRequest {
+public class UpsertDelDevToolTagRequest {
 }

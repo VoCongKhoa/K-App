@@ -1,4 +1,4 @@
-package di.fa.kagateway.feign.dto.request;
+package di.fa.kadevtools.feign.dto.request;
 
 import lombok.*;
 
@@ -7,5 +7,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpsertDelDevToolRequest {
+public class SearchDevToolsRequest {
+
+
 }

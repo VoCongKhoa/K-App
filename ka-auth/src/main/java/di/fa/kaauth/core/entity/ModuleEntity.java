@@ -50,13 +50,4 @@ public class ModuleEntity extends Auditable<UUID> {
 
     @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
     private Set<UserEntity> users;
-
-    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
-    private Set<RoleEntity> roles;
-
-    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
-    private Set<PermissionEntity> permissions;
-
-    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY)
-    private Set<LoginTrackingEntity> loginTrackings;
 }

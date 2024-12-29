@@ -36,10 +36,6 @@ public class PermissionEntity extends Auditable<UUID> {
     @Column(name = "is_system")
     private Boolean isSystem;
 
-    @ManyToOne
-    @JoinColumn(name = "module_id", referencedColumnName = "module_id")
-    private ModuleEntity module;
-
     @OneToMany(mappedBy = "permission", fetch = FetchType.LAZY)
     private Set<UserScopeEntity> userScopes;
 }
